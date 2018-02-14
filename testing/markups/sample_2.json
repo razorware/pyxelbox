@@ -1,0 +1,35 @@
+{
+	"header": {
+		"class": "sample.Sample",
+		"title": "Sample 2: Add Menu & Grid Parameters",
+		"l:presenters": "m:test_app.presenters"
+	},
+	"resources": {
+		"context": "test_app.presenters.sample_2.Sample2"
+	},
+	"content": {
+		"Menu": [
+			"// File options",
+			{"File": {
+				"Open": "",
+				"|": "",
+				"Exit": "p:{view master} c:{binding quit}"
+			}},
+			{"About": ""}],
+		"Grid": [
+		"// Packed Parameters: demonstrates grid packed parameters",
+		"//   r: row - grid row; if omitted, default to 0",
+		"//   c: column - grid column; if omitted, default to 0",
+		"//   a: anchor - label anchor in grid",
+		{"Label": {
+			"text": "Hello, ",
+			"size": "w:50",
+			"grid": "r:0 c:0"
+		}}, 
+		{"Label": { 
+			"text": "World!",
+			"size": "w:50",
+			"grid": "r:0 c:0 a:center"
+		}}]
+	}
+}
