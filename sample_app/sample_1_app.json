@@ -1,0 +1,7 @@
+{
+  /*
+    Application markup tells the bootstrap the name of the application
+    and the target (t:) initial view.
+  */
+  "application": "n:'Sample App' t:views.sample_1"
+}

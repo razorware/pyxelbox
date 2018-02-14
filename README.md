@@ -69,4 +69,46 @@ Prior to consumption, the above JSON markup is sanitized by stripping the commen
 }
 ```
 
+Before an application can be run, the PyLE bootstrap needs to know where to find the initial/start up view:
+```
+{
+  /*
+    Application markup tells the bootstrap the name of the application
+    and the target (t:) initial view.
+  */
+  "application": "n:'Sample App' t:views.sample_1"
+}
+```
+
+* runner.py
+the recommended method to execute the bootstrap uses `runner.py`:
+```python
+# the advantage of this script is that the *_app.json file is passed in the command line parameter
+import sys
+
+from pyle.bootstrap import Application
+
+if __name__ == "__main__":
+    file = sys.argv[1]
+
+    app = Application(file)
+    app.mainloop()
+```
+
+* bootstrap.py
+an alternative method for execution using `bootstrap.py`:
+```python
+import importlib
+
+from pyle import TargetInfo
+from pyle.bootstrap import Bootstrap
+
+
+# custom implementation of the PyLE Bootstrap class
+class Application(Bootstrap):
+    def __init__(self, file):
+        mod_info = TargetInfo(importlib.import_module('module_name'), file)
+        Bootstrap.__init__(self, mod_info)
+```
+
 [json_to_gui]: https://github.com/razorware/pyxelbox/blob/master/images/json_to_gui.png "JSON markup to Tkinter GUI"
