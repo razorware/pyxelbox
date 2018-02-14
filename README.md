@@ -16,7 +16,7 @@ Pyxelbox introduces the following:
 * **PyLE** is a lightweight environment engine that consumes JSON as a markup language. The markup is a GUI development tool allowing developers to create robust user interfaces. PyLE relies on a convention conducive to creating manageable graphic interfaces that implement the Model-View-Presenter (MVP) paradigm.
 
 The JSON markup differs from pure JSON only by the inclusion of comments - both multi- and single-line.
-```json
+```
 {
   /*
     Quick Start demonstrates several features of JSON markup.
