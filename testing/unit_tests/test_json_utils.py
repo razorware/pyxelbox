@@ -1,9 +1,13 @@
+import importlib
+
 from os import path
 
 import unittest
 ###
 from pyle.framework import load_markup, \
-    clean_markup
+    load_file_module, \
+    sanitize_markup, \
+    TargetInfo
 
 
 class TestJsonUtils(unittest.TestCase):
@@ -23,7 +27,7 @@ class TestJsonUtils(unittest.TestCase):
                      '{"size": "w:500 h:300"}' \
                      ']}'
 
-        self.assertEqual(exp_markup, clean_markup(source=source))
+        self.assertEqual(exp_markup, sanitize_markup(source=source))
 
     def test_valid_json_file(self):
         exp_good_file = "sample_1.json"
@@ -60,6 +64,15 @@ class TestJsonUtils(unittest.TestCase):
 
         self.assertEqual(exp_markup, act_markup)
 
+    def test_load_target_info(self):
+        file = "sample_1_app.json"
+        markup_file = path.join("..\\..\\quick_start", file)
+
+        exp_target_info = TargetInfo(importlib.import_module('quick_start.views', 'sample'), "")
+        act_target_info = load_file_module(markup_file)
+
+        self.assertEqual(exp_target_info.module, act_target_info.module)
+        self.assertEqual(exp_target_info.target, act_target_info.target)
 
 if __name__ == '__main__':
     unittest.main()
