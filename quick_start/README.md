@@ -5,4 +5,4 @@ The recommended point of execution is `runner.py`. This script can execute in on
 * **`pyle.Bootstrap`** class can be instantiated and executed - either as default class or as inherited  
 * **`pyle.Application`** class can be instantiated and executed - either as default or as inherited
 
-Executing from Bootstrap allows for more specialized configuration.`
+Executing from Bootstrap allows for more specialized configuration.
