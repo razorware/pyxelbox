@@ -9,6 +9,11 @@ Executing from Bootstrap allows for more specialized configuration.
 
 ### Window Section
 
+| default        |user-defined
+| ------------- |-------------:
+| ![default window size][def_win]      | ![user defined size][usr_win]
+
+
 If there is not a setting for the window size, PyLE provides a default window setting of 350x350:  
 ![default window size][def_win]
 
