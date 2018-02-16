@@ -37,7 +37,7 @@ The JSON markup differs from pure JSON only by the inclusion of comments - both 
   // section: Window
   "Window": {
     // set up the window object
-    class": "sample.Sample",
+    "class": "sample.Sample",
     "title": "Sample 1: Basic Quick Start",
     // packed size parameters
     "size": "w:500 h:300"
