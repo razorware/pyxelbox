@@ -1,7 +1,7 @@
 {
   // section: Window
-  "Window": [
-    {"class": "sample.Sample"},
-    {"title": "Default Window Size: 350 x 350"}
-  ]
+  "Window": {
+    "class": "sample.Sample",
+    "title": "Default Window Size: 350 x 350"
+  }
 }

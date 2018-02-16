@@ -35,19 +35,19 @@ The JSON markup differs from pure JSON only by the inclusion of comments - both 
   */
 	
   // section: Window
-  "Window": [
+  "Window": {
     // set up the window object
-    {"class": "sample.Sample"},
-    {"title": "Sample 1: Basic Quick Start"},
+    class": "sample.Sample",
+    "title": "Sample 1: Basic Quick Start",
     // packed size parameters
-    {"size": "w:500 h:300"}
-  ],
+    "size": "w:500 h:300"
+  },
   // section: Grid
   "Grid": [
-    {"Label": [
-      {"text": "Hello, World!"},
-      {"size": "w:50"}
-    ]}
+    {"Label": {
+      "text": "Hello, World!",
+      "size": "w:50"
+    }}
   ]
 }
 ```
@@ -55,16 +55,16 @@ The JSON markup differs from pure JSON only by the inclusion of comments - both 
 Prior to consumption, the above JSON markup is sanitized by stripping the comments leaving the following:
 ```json
 {
-  "Window": [
-    {"class": "sample.Sample"},
-    {"title": "Sample 1: Basic Quick Start"},
-    {"size": "w:500 h:300"}
-  ],
+  "Window": {
+    "class": "sample.Sample",
+    "title": "Sample 1: Basic Quick Start",
+    "size": "w:500 h:300"
+  },
   "Grid": [
-    {"Label": [
-      {"text": "Hello, World!"},
-      {"size": "w:50"}
-    ]}
+    {"Label": {
+      "text": "Hello, World!",
+      "size": "w:50"
+    }}
   ]
 }
 ```

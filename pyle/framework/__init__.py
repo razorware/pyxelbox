@@ -188,23 +188,11 @@ class Section:
         self.__name = name
         self.__content = content
 
-    def keys(self):
-        key_list = []
-        for d in self:
-            key_list += d
-
-        return key_list
-
     def __getitem__(self, item):
-        items = []
+        if item in self.__content:
+            return self.__content[item]
 
-        for d in self.__content:
-            if item in d:
-                items.append(d[item])
-
-        return items
+        return None
 
     def __iter__(self):
-        # there is probably a list comprehension to do the same but ...
-        for d in self.__content:
-            yield [k for k, v in d.items()]
+        return iter(d for d in self.__content)

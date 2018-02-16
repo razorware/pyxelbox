@@ -43,7 +43,7 @@ class TestLoader(unittest.TestCase):
 
     def test_sections(self):
         target_module = importlib.import_module('quick_start.views')
-        view_info = TargetInfo(target_module, 'sample_1.json')
+        view_info = TargetInfo(target_module, 'sample_3.json')
 
         loader = Loader(view_info)
 

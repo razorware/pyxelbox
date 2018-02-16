@@ -31,7 +31,7 @@ class TestUtils(unittest.TestCase):
         self.assertEqual(exp_markup, sanitize_markup(source=source))
 
     def test_valid_json_file(self):
-        exp_good_file = "sample_1.json"
+        exp_good_file = "test_1.json"
         markup_file = path.join("..\\markups", exp_good_file)
 
         self.assertIsNotNone(load_markup(markup_file))
@@ -46,19 +46,19 @@ class TestUtils(unittest.TestCase):
 
     def test_load_cnf_from_json(self):
         exp_cnf = {
-            "Window": [
-                {"class": "sample.Sample"},
-                {"title": "Sample 1: Basic Quick Start"},
-                {"size": "w:500 h:300"}
-            ],
+            "Window": {
+                "class": "sample.Sample",
+                "title": "Sample 1: Basic Quick Start",
+                "size": "w:500 h:300"
+            },
             "Grid": [
-                {"Label": [
-                    {"text": "Hello, World!"},
-                    {"size": "w:50"}
-                ]}
+                {"Label": {
+                    "text": "Hello, World!",
+                    "size": "w:50"
+                }}
             ]
         }
-        good_file = "sample_1.json"
+        good_file = "test_1.json"
         markup_file = path.join("..\\markups", good_file)
 
         act_cnf = load_markup(markup_file)

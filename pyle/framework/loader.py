@@ -64,13 +64,13 @@ class Loader:
 
         self.__view_cnf = {
             'window': load_reference(view_info.module,
-                                     window['class'][0]),
-            'title': window['title'][0],
+                                     window['class']),
+            'title': window['title'],
             'cnf': {}
         }
 
-        if 'size' in window.keys():
-            size = window['size'][0]
+        if 'size' in window:
+            size = window['size']
         else:
             #   default size
             size = "w:350 h:350"

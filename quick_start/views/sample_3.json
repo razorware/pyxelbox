@@ -16,18 +16,18 @@
   */
 	
   // section: Window
-  "Window": [
+  "Window": {
     // set up the window object
-    {"class": "sample.Sample"},
-    {"title": "Sample 1: Basic Quick Start"},
+    "class": "sample.Sample",
+    "title": "Sample 1: Basic Quick Start",
     // packed size parameters
-    {"size": "w:500 h:300"}
-  ],
+    "size": "w:500 h:300"
+  },
   // section: Grid
   "Grid": [
-    {"Label": [
-      {"text": "Hello, World!"},
-      {"size": "w:50"}
-    ]}
+    {"Label": {
+      "text": "Hello, World!",
+      "size": "w:50"
+    }}
   ]
 }
