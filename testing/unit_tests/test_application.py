@@ -7,7 +7,7 @@ from pyle.bootstrap import Application
 from pyle.framework import TargetInfo
 
 
-class TestApplicationMethods(unittest.TestCase):
+class TestApplication(unittest.TestCase):
 
     def test_initialization(self):
         exp_app_name = 'Sample App'
@@ -16,7 +16,7 @@ class TestApplicationMethods(unittest.TestCase):
         app_file = "sample_1_app.json"
         markup_file = path.join("..\\..\\quick_start", app_file)
 
-        app = Application(markup_file)
+        app = Application(TargetInfo(exp_app_target.module, markup_file))
 
         self.assertEqual(exp_app_name, app.name)
         self.assertEqual(exp_app_target.module, app.views)

@@ -147,7 +147,11 @@ def get_param(_class, pack_arr, param, **kwargs):
     return _class(val) if func is None else func(_class(val))
 
 
-def load_markup(file):
+def load_markup(file, **kwargs):
+    if 'module' in kwargs:
+        file_path = path.dirname(kwargs['module'].__file__)
+        file = path.join(file_path, file)
+
     return json.loads(sanitize_markup(file=file))
 
 
@@ -155,7 +159,52 @@ def load_file_module(file):
     module_path = path.basename(path.dirname(file))
     markup = load_markup(file)
     name_parts = get_param(str, markup['application'], 't', func=lambda s: s.split('.'))
+
     target = '{mod}.{target}'.format(mod=module_path,
                                      target='.'.join(name_parts[:-1]))
 
     return importlib.import_module(target)
+
+
+def load_reference(ref_module, ref_path):
+    path_parts = list(ref_module.__name__.split('.'))
+    path_parts += (ref_path.split('.'))
+
+    ref_object = path_parts[-1]
+    ref_module = '{module}'.format(module='.'.join(path_parts[:-1]))
+
+    module = importlib.import_module(ref_module)
+
+    return getattr(module, ref_object)
+
+
+class Section:
+
+    @property
+    def name(self):
+        return self.__name
+
+    def __init__(self, name, content):
+        self.__name = name
+        self.__content = content
+
+    def keys(self):
+        key_list = []
+        for d in self:
+            key_list += d
+
+        return key_list
+
+    def __getitem__(self, item):
+        items = []
+
+        for d in self.__content:
+            if item in d:
+                items.append(d[item])
+
+        return items
+
+    def __iter__(self):
+        # there is probably a list comprehension to do the same but ...
+        for d in self.__content:
+            yield [k for k, v in d.items()]

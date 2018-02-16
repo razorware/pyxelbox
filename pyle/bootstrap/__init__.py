@@ -18,18 +18,19 @@ class Application:
     def views(self):
         return self.__app_cnf['views']
 
-    def __init__(self, markup_file):
+    def __init__(self, app_info):
         """
         Application loads the file containing json markup to initialize the application.
 
-        :param markup_file: json file containing application markup
+        :param app_info: application target information including the app module and name
+        of the app's json markup file.
+
         :return:
         """
-        # TODO: if 'module' not in app_cnf, we have an exception
-        markup = load_markup(markup_file)
+        markup = load_markup(app_info.target)
         self.__app_cnf = {
             'name': get_param(str, markup['application'], 'n', func=lambda s: s.replace("'", "")),
-            'views': load_file_module(markup_file)
+            'views': load_file_module(app_info.target)
         }
         self.__set_target_path(markup)
 
