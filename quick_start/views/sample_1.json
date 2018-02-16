@@ -2,6 +2,6 @@
   // section: Window
   "Window": [
     {"class": "sample.Sample"},
-    {"title": "Sample 1: Basic Quick Start"}
+    {"title": "Default Window Size: 350 x 350"}
   ]
 }

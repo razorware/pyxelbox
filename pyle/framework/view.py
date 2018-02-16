@@ -21,5 +21,6 @@ class View(ABC, tk.Frame):
         self._on_before_initialize(kw_cnf)
 
         tk.Frame.__init__(self, **kw_cnf)
+        self.grid(row=0, column=0)
 
         self._on_after_initialize()

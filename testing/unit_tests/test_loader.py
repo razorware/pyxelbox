@@ -56,20 +56,32 @@ class TestLoader(unittest.TestCase):
         view_info = TargetInfo(target_module, 'sample_1.json')
 
         loader = Loader(view_info)
-        width, height = loader.size
+        size = loader.size
 
-        self.assertEqual(350, width)
-        self.assertEqual(350, height)
+        self.assertEqual(350, size['width'])
+        self.assertEqual(350, size['height'])
+
+        # functional - shows window
+        # window = loader.window(cnf=size)
+        # window.master.title(loader.title)
+        #
+        # window.master.mainloop()
 
     def test_window_size(self):
         target_module = importlib.import_module('quick_start.views')
         view_info = TargetInfo(target_module, 'sample_2.json')
 
         loader = Loader(view_info)
-        width, height = loader.size
+        size = loader.size
 
-        self.assertEqual(500, width)
-        self.assertEqual(300, height)
+        self.assertEqual(500, size['width'])
+        self.assertEqual(300, size['height'])
+
+        # functional - shows window
+        # window = loader.window(cnf=size)
+        # window.master.title(loader.title)
+        #
+        # window.master.mainloop()
 
 
 if __name__ == '__main__':

@@ -22,8 +22,12 @@ class Loader:
 
     @property
     def size(self):
-        return self.__view_cnf['cnf']['width'], \
-               self.__view_cnf['cnf']['height']
+        return {'width': self.__view_cnf['cnf']['width'],
+                'height': self.__view_cnf['cnf']['height']}
+
+    @property
+    def title(self):
+        return self.__view_cnf['title']
 
     @property
     def window(self):
