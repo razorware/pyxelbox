@@ -78,10 +78,10 @@ class TestLoader(unittest.TestCase):
         self.assertEqual(300, size['height'])
 
         # functional - shows window
-        # window = loader.window(cnf=size)
-        # window.master.title(loader.title)
-        #
-        # window.master.mainloop()
+        window = loader.window(cnf=size)
+        window.master.title(loader.title)
+
+        window.master.mainloop()
 
 
 if __name__ == '__main__':
