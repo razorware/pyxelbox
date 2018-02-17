@@ -167,7 +167,11 @@ def load_file_module(file):
 
 
 def load_reference(ref_module, ref_path):
-    path_parts = list(ref_module.__name__.split('.'))
+    if isinstance(ref_module, str):
+        path_parts = list(ref_module.split('.'))
+    else:
+        path_parts = list(ref_module.__name__.split('.'))
+
     path_parts += (ref_path.split('.'))
 
     ref_object = path_parts[-1]

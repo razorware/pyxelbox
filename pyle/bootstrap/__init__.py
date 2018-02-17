@@ -2,7 +2,9 @@ from os import path
 
 from pyle.framework import get_param, \
     load_markup, \
-    load_file_module
+    load_file_module, \
+    TargetInfo
+from pyle.framework.loader import Loader
 
 
 class Application:
@@ -45,6 +47,6 @@ class Application:
         self.__app_cnf.update({'target': target_path})
 
     def __run(self):
-        # self.__initialize()
-        # self.__controller.view().mainloop()
-        pass
+        view_info = TargetInfo(self.__app_cnf['views'], self.__app_cnf['target'])
+        loader = Loader(view_info)
+        loader.run()

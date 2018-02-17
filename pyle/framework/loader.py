@@ -17,6 +17,10 @@ S_MENU = "Menu"
 class Loader:
 
     @property
+    def children(self):
+        return self.__children
+
+    @property
     def sections(self):
         return self.__sections
 
@@ -48,6 +52,32 @@ class Loader:
         markup = load_markup(view_info.target, module=view_info.module)
         self.__sections = []
 
+        # 1: load sections
+        window = self.__load_sections(markup)
+
+        # 2: configure window -- Window is the only required section
+        if window is None:
+            raise Exception("A " + S_WINDOW + " must be configured in json markup")
+        else:
+            self.__configure_view(view_info, window)
+
+        # 3: configure resources
+
+        # 4: configure menu
+
+        # 5: configure grid
+        self.__children = {}
+        if S_GRID in self.__sections:
+            print('configuring children')
+            self.__configure_children(markup[S_GRID])
+
+    def run(self):
+        window = self.window(cnf=self.__view_cnf['cnf'])
+        window.master.title(self.__view_cnf['title'])
+
+        window.master.mainloop()
+
+    def __load_sections(self, markup):
         window = None
 
         for key in markup:
@@ -58,10 +88,19 @@ class Loader:
 
             self.__sections.append(section.name)
 
-        # Window is the only required section
-        if window is None:
-            raise Exception("A " + S_WINDOW + " must be configured in json markup")
+        return window
 
+    def __configure_view(self, view_info, window):
+        """
+
+        :param view_info:
+        :type view_info: TargetInfo
+
+        :param window:
+        :type window: Section
+
+        :return:
+        """
         self.__view_cnf = {
             'window': load_reference(view_info.module,
                                      window['class']),
@@ -77,3 +116,18 @@ class Loader:
 
         self.__view_cnf['cnf'].update({'width': get_param(int, size, 'w')})
         self.__view_cnf['cnf'].update({'height': get_param(int, size, 'h')})
+
+    def __configure_children(self, children):
+        i = 0
+        for ch in children:
+            for k, v in ch.items():
+                cls_child = load_reference('tkinter', k)
+                name = '{cls}_{id}'.format(cls=cls_child.__name__, id=i)
+                cls_info = {
+                    "class": cls_child,
+                    "cnf": v
+                }
+
+                self.__children.update({name: cls_info})
+
+            i += 1

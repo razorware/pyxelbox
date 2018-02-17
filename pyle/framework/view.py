@@ -11,6 +11,20 @@ class View(ABC, tk.Frame):
 
         self.__initialize(kwargs)
 
+    def add_control(self, cls_info):
+        """
+        Adds control to view
+
+        :param cls_info:    { "class": class,
+                              "cnf": {'text': 'Hello, World!', 'size': 'w:50'}
+                            }
+        :type cls_info: dict
+
+        :return:
+        """
+        cls = cls_info['class']
+        cls(self, **cls_info['cnf'])
+
     def _on_before_initialize(self, kw_cnf):
         pass
 

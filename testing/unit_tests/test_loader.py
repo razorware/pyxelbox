@@ -61,7 +61,7 @@ class TestLoader(unittest.TestCase):
         self.assertEqual(350, size['width'])
         self.assertEqual(350, size['height'])
 
-        # functional - shows window
+        # functional: shows window
         # window = loader.window(cnf=size)
         # window.master.title(loader.title)
         #
@@ -77,11 +77,27 @@ class TestLoader(unittest.TestCase):
         self.assertEqual(500, size['width'])
         self.assertEqual(300, size['height'])
 
-        # functional - shows window
-        window = loader.window(cnf=size)
-        window.master.title(loader.title)
+        # functional: shows window
+        # window = loader.window(cnf=size)
+        # window.master.title(loader.title)
+        #
+        # window.master.mainloop()
 
-        window.master.mainloop()
+    def test_child_container_empty(self):
+        target_module = importlib.import_module('quick_start.views')
+        view_info = TargetInfo(target_module, 'sample_1.json')
+
+        loader = Loader(view_info)
+
+        self.assertTrue(len(loader.children) == 0)
+
+    def test_child_container(self):
+        target_module = importlib.import_module('quick_start.views')
+        view_info = TargetInfo(target_module, 'sample_3.json')
+
+        loader = Loader(view_info)
+
+        self.assertTrue(len(loader.children) == 1)
 
 
 if __name__ == '__main__':

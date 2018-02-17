@@ -9,10 +9,11 @@ Executing from Bootstrap allows for more specialized configuration.
 
 ### Window Section
 
- default | user-defined
- ------- | ------------
+ default: `sample_1_app.json` | user-defined: `sample_2_app.json`
  ![default window size][def_win] | ![user defined size][usr_win]
+ 
 
+You can execute `runnery.py` passing in either one of the **sample_x_app.json** files shown in the table
 
 
 [def_win]: https://github.com/razorware/pyxelbox/blob/master/images/350_x_350_default_window.PNG "Default Window Size"

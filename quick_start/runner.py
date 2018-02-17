@@ -1,11 +1,14 @@
 import sys
+import importlib
 
-from pyle.framework import load_markup
+from os import path
+
+from pyle.framework import TargetInfo
 from pyle.bootstrap import Application
 
 if __name__ == "__main__":
-    file = sys.argv[1]
-    markup = load_markup(file)
+    module = importlib.import_module('quick_start')
+    file = path.join(path.dirname(module.__file__), sys.argv[1])
 
-    app = Application(markup)
+    app = Application(TargetInfo(module, file))
     app.mainloop()
