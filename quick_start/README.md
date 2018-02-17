@@ -10,6 +10,7 @@ Executing from Bootstrap allows for more specialized configuration.
 ### Window Section
 
  default: `sample_1_app.json` | user-defined: `sample_2_app.json`
+ ----- | -----
  ![default window size][def_win] | ![user defined size][usr_win]
  
 
