@@ -75,6 +75,13 @@ class Loader:
         window = self.window(cnf=self.__view_cnf['cnf'])
         window.master.title(self.__view_cnf['title'])
 
+        for n, ch in self.__children.items():
+            cls = ch['class']
+            cnf = ch['cnf']
+
+            cls(window, **cnf)
+            cls.grid(window, row=0, column=0)
+
         window.master.mainloop()
 
     def __load_sections(self, markup):

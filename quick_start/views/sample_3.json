@@ -26,8 +26,7 @@
   // section: Grid
   "Grid": [
     {"Label": {
-      "text": "Hello, World!",
-      "size": "w:50"
+      "text": "Hello, World!"
     }}
   ]
 }
