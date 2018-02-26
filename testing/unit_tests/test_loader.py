@@ -1,4 +1,6 @@
+import tkinter as tk
 import importlib
+
 import unittest
 
 from pyle.framework import TargetInfo
@@ -38,7 +40,7 @@ class TestLoader(unittest.TestCase):
         from tkinter import Tk
         from tkinter import Frame
 
-        self.assertTrue(isinstance(view, Frame))
+        self.assertTrue(isinstance(view.frame, Frame))
         self.assertTrue(isinstance(view.master, Tk))
 
     def test_sections(self):
@@ -78,10 +80,18 @@ class TestLoader(unittest.TestCase):
         self.assertEqual(300, size['height'])
 
         # functional: shows window
-        # window = loader.window(cnf=size)
-        # window.master.title(loader.title)
-        #
-        # window.master.mainloop()
+        window = loader.window(cnf=size)
+        window.master.title(loader.title)
+
+        tk_module = importlib.import_module('tkinter')
+        cls_label = getattr(tk_module, 'Label')
+        tk_label = cls_label(window.frame, text="Hello,")
+        tk_label.grid(row=0, column=0)
+
+        label = tk.Label(window.frame, text="World!")
+        label.grid(row=1, column=1)
+
+        window.master.mainloop()
 
     def test_child_container_empty(self):
         target_module = importlib.import_module('quick_start.views')

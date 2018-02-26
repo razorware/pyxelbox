@@ -1,41 +1,41 @@
 {
-	"header": {
-		"class": "sample.Sample",
-		"title": "Sample 3: Configure Window",
-		"//": "next line tells the interpreter to create a label called presenters",
-		"l:presenters": "m:test_app.presenters",
-		"//": "example of packed values in markup",
-		"size": "w:500 h:300",
-		"//": {
-			"//": "alternative size markup",
-			"size.w": 500,
-			"size.h": 300
-			}
-	},
-	"resources": {
-		"context": "presenters:sample_3.Sample3"
-	},
-	"content": {
-		"//": "Menu bar configuration",
-		"Menu": [
-			"// File options",
-			{"File": {
-				"Open": "",
-				"|": "",
-				"Exit": "p:{view master} c:{binding quit}"
-			}},
-			{"About": ""}],
-		"Grid": [
-		{"Label": {
-			"text": "packed grid params",
-			"size": "a:left",
-			"grid": "r:0 c:0"
-		}}, 
-		{"Label": { 
-			"text": "expanded params",
-			"size.a": "right",
-			"grid.r": 1,
-			"grid.c":1
-		}}]
-	}
+  /*
+    Quick Start demonstrates several features of JSON markup.
+    1. comments: both in single- and multi-line formats. To 
+       validate JSON markup, comments are stripped away before 
+       being loaded into the engine.
+
+    2. sections: while sections	are not required to appear in 
+       the order shown in this and subsequent tutorials; however,
+       it is recommended as a general practice.
+
+    3. packed parameters: values take advantage of packing 
+       parameters in a manner similar to CSS. Tutorials will
+       demonstrate both packed and expanded varieties of 
+       parameters.
+  */
+	
+  // section: Window
+  "Window": {
+    // set up the window object
+    "class": "sample.Sample",
+    "title": "Sample 3: Basic Quick Start",
+    // packed size parameters
+    "size": "w:500 h:300",
+    /*
+        f: foreground color
+        b: background color
+        hf: highlighted foreground color
+        hb: highlighted background color
+        bd: border width
+        th: thickness
+     */
+    "border": "f:red b:black hf:red bd:0 th:1"
+  },
+  // section: Grid / Frame / etc.???
+  "Grid": [
+    "Label": {
+      "text": "Hello, World!"
+    }
+  ]
 }
