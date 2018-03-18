@@ -1,5 +1,7 @@
 from os import path
 
+from jargon_py.query import one
+
 from pyle.framework import get_param, \
     load_markup, \
     load_file_module, \
@@ -31,7 +33,7 @@ class Application:
         """
         markup = load_markup(app_info.target)
         self.__app_cnf = {
-            'name': get_param(str, markup['application'], 'n', func=lambda s: s.replace("'", "")),
+            'name': get_param(str, one(markup['application']), 'n', func=lambda s: s.replace("'", "")),
             'views': load_file_module(app_info.target)
         }
         self.__set_target_path(markup)
@@ -40,9 +42,9 @@ class Application:
 
     def __set_target_path(self, markup):
         views = self.__app_cnf['views']
-        target_path = get_param(str, markup['application'], 't',
-                                func=lambda s: '{dir}\\{file}.json'.format(dir=path.dirname(views.__file__),
-                                                                           file=s.split('.')[-1]))
+        target_path = get_param(str, one(markup['application']), 't',
+                                func=lambda s: '{dir}\\{file}.jss'.format(dir=path.dirname(views.__file__),
+                                                                          file=s.split('.')[-1]))
 
         self.__app_cnf.update({'target': target_path})
 

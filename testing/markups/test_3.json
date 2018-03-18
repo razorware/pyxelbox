@@ -34,8 +34,8 @@
   },
   // section: Grid / Frame / etc.???
   "Grid": [
-    "Label": {
+    {"Label": {
       "text": "Hello, World!"
-    }
+    }}
   ]
 }

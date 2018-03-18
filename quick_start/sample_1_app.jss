@@ -1,0 +1,1 @@
+application: n:"Sample App" t:views.sample_1;

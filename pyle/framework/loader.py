@@ -2,6 +2,8 @@ import importlib
 
 from os import path
 
+from jargon_py.query import one
+
 from pyle.framework import get_param, \
     load_markup, \
     load_file_module, \
@@ -12,6 +14,8 @@ S_WINDOW = "Window"
 S_GRID = "Grid"
 S_RESOURCES = "Resources"
 S_MENU = "Menu"
+
+DEFAULT_SIZE = {'w': 350, 'h': 350}
 
 
 class Loader:
@@ -80,10 +84,10 @@ class Loader:
     def __load_sections(self, markup):
         window = None
 
-        for key in markup:
-            section = Section(key, markup[key])
+        for node in markup:
+            section = Section(node.name, one(markup[node.name]))
 
-            if key == S_WINDOW:
+            if node.name == S_WINDOW:
                 window = section
 
             self.__sections.append(section.name)
@@ -112,7 +116,7 @@ class Loader:
             size = window['size']
         else:
             #   default size
-            size = "w:350 h:350"
+            size = DEFAULT_SIZE
 
         self.__view_cnf['cnf'].update({'width': get_param(int, size, 'w')})
         self.__view_cnf['cnf'].update({'height': get_param(int, size, 'h')})

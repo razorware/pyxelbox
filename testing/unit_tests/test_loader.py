@@ -1,3 +1,5 @@
+import json
+import os
 import tkinter as tk
 import importlib
 
@@ -28,7 +30,7 @@ class TestLoader(unittest.TestCase):
 
     def test_initialization(self):
         target_module = importlib.import_module('quick_start.views')
-        view_info = TargetInfo(target_module, 'sample_1.json')
+        view_info = TargetInfo(target_module, 'sample_1.jss')
 
         loader = Loader(view_info)
 
@@ -102,8 +104,18 @@ class TestLoader(unittest.TestCase):
         self.assertTrue(len(loader.children) == 0)
 
     def test_child_container(self):
+        test_path = '..\\..\\quick_start\\views'
+        expected_file = os.path.join(test_path, 'sample_3a.json')
+        test_file = os.path.join(test_path, 'sample_3a.jss')
+
+        if os.path.isfile(test_file):
+            print(os.path.abspath(test_file))
+
+            with open(expected_file) as m_file:
+                test_markup = json.load(m_file)
+
         target_module = importlib.import_module('quick_start.views')
-        view_info = TargetInfo(target_module, 'sample_3.json')
+        view_info = TargetInfo(target_module, 'sample_3a.jss')
 
         loader = Loader(view_info)
 

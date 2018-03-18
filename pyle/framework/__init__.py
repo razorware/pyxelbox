@@ -1,106 +1,16 @@
-import json
 import importlib
 
 from os import path
 from collections import namedtuple
 
+from jargon_py import jargon
+from jargon_py.query import *
+
 TargetInfo = namedtuple('TargetInfo', 'module target')
 
-MARKUP_EXT = ".json"
+MARKUP_EXT = ".jss"
 
 __imports = {}
-
-
-def __get_sanitized_markup(data):
-    markup = str()
-
-    i = 0
-    while i in range(0, len(data)):
-        # check for comments
-        if data[i:i+2] == '//':     # // ... EOL
-            i += 2
-
-            # move to EOL
-            while i < len(data) and (data[i] != '\r' and data[i] != '\n'):
-                if i == 180:
-                    pass
-
-                i += 1
-
-            if i < len(data):
-                if data[i] == '\r':
-                    i += 1
-
-                if data[i] == '\n':
-                    i += 1
-
-            continue
-
-        elif data[i:i+2] == '/*':     # /* ... */
-            i += 2
-
-            # move to '*/'
-            while i < len(data) and data[i:i+2] != '*/':
-                i += 1
-
-            i += 2
-            if i < len(data):
-                if data[i] == '\r':
-                    i += 1
-
-                if data[i] == '\n':
-                    i += 1
-
-            continue
-
-        elif data[i] == '\r':
-            i += 1
-
-            continue
-
-        elif data[i] == '\n':
-            i += 1
-
-            continue
-
-        elif data[i] == '\t':
-            i += 1
-
-            continue
-
-        else:
-            markup += data[i]
-
-        i += 1
-
-    return markup
-
-
-def sanitize_markup(**kwargs):
-    data = None
-
-    if 'source' in kwargs:
-        data = kwargs['source']
-
-    elif 'file' in kwargs:
-        file = kwargs['file']
-
-        if path.isfile(file):
-            ext = path.splitext(file)
-
-            if ext[1] != MARKUP_EXT:
-                raise Exception('file [{file}] is not a JSON file: {ext}'
-                                .format(file=file,
-                                        ext=ext))
-
-            with open(file) as j_markup:
-                data = j_markup.read()
-
-        else:
-            raise FileExistsError('file [{file}] does not exist or is not a file'
-                                  .format(file=file))
-
-    return __get_sanitized_markup(data)
 
 
 def get_import(name):
@@ -110,33 +20,31 @@ def get_import(name):
     return __imports[name]
 
 
-def get_param(_class, pack_arr, param, **kwargs):
+def get_param(_class, node, param, **kwargs):
     """
-    retrieves a parameter value from a packed parameter array: e.g. "r:0 c:1 a:top-left"
+    retrieves a parameter value from a node: e.g. "r:0 c:1 a:top-left"
 
     :param _class: class type to be initialized with the value
-    :param pack_arr: packed array string
+
+    :param node: node with parameters
+    :type node: KeyNode
+
     :param param: parameter to be returned
+    :type param: str
+
     :param kwargs: if function to be applied to value; ex. 'func': lambda v: func(v)
+    :type kwargs: dict
 
     :return: value of type _class
     """
-    pack_arr = str(pack_arr)
-    if param not in pack_arr:
-        return None
-
-    param += ':'        # add : to trail param label
-    p_idx = pack_arr.find(param)
-    # if ":" is immediately followed by "'" then we have a string value, e.g.: "n:'some string value'
-    if pack_arr[p_idx+len(param)] == "'":
-        p_idx = pack_arr.find("'", p_idx + len(param))
-        p_end = pack_arr.find("'", p_idx + 1) + 1               # include trailing "'"
-        val = pack_arr[p_idx:p_end] if p_end != -1 else None
+    if param in node:
+        val = node[param]
+    elif param in node.value:
+        val = node.value[param]
     else:
-        p_end = pack_arr.find(" ", p_idx + len(param))
-        val = pack_arr[(p_idx + len(param)):p_end] if p_end != -1 else pack_arr[(p_idx + len(param)):]
+        val = None
 
-    if val is None:
+    if not val:
         #   TODO: raise exception ...???
         return val
 
@@ -152,13 +60,13 @@ def load_markup(file, **kwargs):
         file_path = path.dirname(kwargs['module'].__file__)
         file = path.join(file_path, file)
 
-    return json.loads(sanitize_markup(file=file))
+    return jargon.load(file)
 
 
 def load_file_module(file):
     module_path = path.basename(path.dirname(file))
     markup = load_markup(file)
-    name_parts = get_param(str, markup['application'], 't', func=lambda s: s.split('.'))
+    name_parts = get_param(str, one(markup['application']), 't', func=lambda s: s.split('.'))
 
     target = '{mod}.{target}'.format(mod=module_path,
                                      target='.'.join(name_parts[:-1]))
@@ -188,15 +96,28 @@ class Section:
     def name(self):
         return self.__name
 
-    def __init__(self, name, content):
+    @property
+    def nodes(self):
+        return list(self.__iter__())
+
+    def __init__(self, name, node):
         self.__name = name
-        self.__content = content
+        self.__node = node
 
     def __getitem__(self, item):
-        if item in self.__content:
-            return self.__content[item]
+        if item in self.__node:
+            return self.__node[item]
 
         return None
 
     def __iter__(self):
-        return iter(d for d in self.__content)
+        if self.__node.value:
+            value = self.__node.value
+            if isinstance(value, dict):
+                return iter((k, v) for k, v in value.items())
+            elif isinstance(value, list):
+                return iter(n for n in value)
+            else:
+                return iter(v for v in [value])
+
+        return iter(n for n in self.__node.nodes)
